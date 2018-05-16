@@ -94,23 +94,6 @@ def liuliang():
     return NET_IN, NET_OUT
 
 # todo: 不确定是否要用多线程or多进程:  效率? 资源?　
-def ip_status():
-	object_check = ['www.10010.com', 'www.189.cn', 'www.10086.cn']
-	ip_check = 0
-	for i in object_check:
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.settimeout(1)
-		try:
-			s.connect((i, 80))
-		except:
-			ip_check += 1
-		s.close()
-		del s
-	if ip_check >= 2:
-		return False
-	else:
-		return True
-
 def get_network(ip_version):
 	if(ip_version == 4):
 		HOST = "ipv4.google.com"
@@ -166,7 +149,6 @@ if __name__ == '__main__':
 				MemoryTotal, MemoryUsed = get_memory()
 				SwapTotal, SwapUsed = get_swap()
 				HDDTotal, HDDUsed = get_hdd()
-				IP_STATUS = ip_status()
 
 				array = {}
 				if not timer:
@@ -190,7 +172,6 @@ if __name__ == '__main__':
 				array['network_tx'] = NetTx
 				array['network_in'] = NET_IN
 				array['network_out'] = NET_OUT
-				array['ip_status'] = IP_STATUS
 
 				s.send("update " + json.dumps(array) + "\n")
 		except KeyboardInterrupt:
